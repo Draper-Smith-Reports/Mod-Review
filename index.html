@@ -1,0 +1,239 @@
+<title>Experience Mod Review</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Michroma&family=Archivo:wght@600..800&family=Public+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: short single page in Draper Smith navy and steel grey — branded bar, hero with mod worksheet, three checks, booking form. Single light look to match the logo. */
+:root{
+  color-scheme:light;
+  --paper:#F3F5F7; --surface:#FFFFFF; --ink:#16283A; --muted:#5C6773; --line:#D8DDE2;
+  --navy:#205278; --navy-deep:#143A57; --steel:#A6A6A6; --steel-soft:#E9ECEF; --sky:#6F8FA8;
+  --accent:var(--navy); --accent-ink:#FFFFFF; --good:#2F7A4A; --bad:#A63A2E;
+  --brand:"Michroma","Arial Black",system-ui,sans-serif;
+  --display:"Archivo",system-ui,sans-serif;
+  --body:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font:400 16px/1.6 var(--body)}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);color:var(--navy-deep);line-height:1.08;letter-spacing:-.01em;text-wrap:balance;margin:0}
+p{margin:0}
+.eyebrow{font:400 11px/1.4 var(--brand);letter-spacing:.14em;text-transform:uppercase;color:var(--sky)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+
+.bar{border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;padding-block:16px}
+.bar{background:var(--surface)}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{height:46px;width:auto}
+.brand b{display:block;font:400 clamp(17px,2.4vw,22px)/1 var(--brand);color:var(--navy);letter-spacing:.06em}
+.brand small{display:block;font:400 10px/1 var(--brand);color:var(--steel);letter-spacing:.32em;text-transform:uppercase;margin-top:6px;text-align:right}
+.bar a.book{font:600 14px/1 var(--body);color:var(--navy);text-decoration:none;border:1px solid var(--navy);padding:10px 14px;border-radius:3px}
+
+.hero .wrap{display:grid;grid-template-columns:1.15fr .85fr;gap:48px;align-items:center;padding-block:56px}
+.hero h1{font-size:clamp(40px,6.2vw,70px);font-weight:800;margin-block:14px 18px}
+.hero h1 em{font-style:normal;color:var(--sky)}
+.lede{font-size:18px;color:var(--muted);max-width:50ch}
+.lede .hi{color:var(--ink)}
+.actions{display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center;margin-top:28px}
+.btn{display:inline-flex;align-items:center;justify-content:center;background:var(--accent);color:var(--accent-ink);font:700 16px/1 var(--body);padding:16px 24px;border-radius:4px;border:0;cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--navy-deep)}
+.fine{font-size:14px;color:var(--muted)}
+
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:4px;font-family:var(--mono);font-size:13px;box-shadow:0 18px 40px -24px rgba(0,0,0,.35);overflow:hidden;min-width:0}
+.sheet header{display:flex;justify-content:space-between;gap:8px;padding:12px 16px;background:var(--navy);color:#fff;font-weight:500;letter-spacing:.06em;text-transform:uppercase;font-size:11px}
+.sheet table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums}
+.sheet td{padding:10px 16px;border-top:1px solid var(--line)}
+.sheet td:last-child{text-align:right}
+.sheet .flag td{color:var(--bad)}
+.sheet .flag td:first-child::after{content:" ← review";font-size:11px}
+.sheet .total td:last-child{color:var(--navy);font-size:22px;font-family:var(--display);font-weight:800}
+.sheet footer{padding:10px 16px;border-top:1px dashed var(--line);color:var(--muted);font-size:11px}
+
+.checks{background:var(--navy-deep);color:#fff}
+.checks .wrap{padding-block:40px;display:grid;grid-template-columns:repeat(3,1fr);gap:32px}
+.item{min-width:0}
+.item{border-left:3px solid var(--steel);padding-left:16px}
+.item h3{font-size:20px;font-weight:700;margin-bottom:6px;color:#fff}
+.item p{color:#C7D3DE;font-size:15px}
+
+.request .wrap{padding-block:64px 80px;display:grid;grid-template-columns:.8fr 1.2fr;gap:48px}
+.request h2{font-size:clamp(30px,4vw,44px);margin-block:10px 14px}
+.request aside p{color:var(--muted)}
+.request aside ul{margin:20px 0 0;padding:0;list-style:none;display:grid;gap:10px;font-size:15px}
+.request aside li{display:flex;gap:10px}
+.request aside li::before{content:"✓";color:var(--good);font-weight:700}
+form{background:var(--surface);border:1px solid var(--line);border-top:4px solid var(--navy);border-radius:4px;padding:28px;display:grid;grid-template-columns:1fr 1fr;gap:18px 20px;min-width:0}
+.f{display:grid;gap:6px;min-width:0;align-content:start}
+.f.full{grid-column:1/-1}
+label,.lbl{font-weight:600;font-size:14px}
+.opt{font-weight:400;color:var(--muted)}
+input,textarea{width:100%;font:16px/1.4 var(--body);color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:4px;padding:11px 12px}
+textarea{min-height:84px;resize:vertical}
+input:focus,textarea:focus{border-color:var(--steel);outline:2px solid color-mix(in srgb,var(--steel) 35%,transparent);outline-offset:0}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips label{font-weight:500;display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:999px;padding:7px 12px;cursor:pointer;background:var(--paper)}
+.chips input{width:auto;accent-color:var(--navy);margin:0}
+.chips label:has(input:checked){border-color:var(--navy);color:var(--navy);background:var(--steel-soft)}
+.submit{grid-column:1/-1;display:flex;flex-wrap:wrap;gap:12px 20px;align-items:center}
+.hp{position:absolute;left:-9999px}
+.thanks{grid-column:1/-1}
+.thanks h3{font-size:30px;margin-bottom:10px;color:var(--good)}
+.preview-note{grid-column:1/-1;font-size:13px;background:var(--steel-soft);color:var(--navy);padding:10px 12px;border-radius:4px}
+
+footer.site{background:var(--surface);border-top:1px solid var(--line)}
+footer.site .wrap{padding-block:24px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between}
+
+@media (max-width:860px){
+  .hero .wrap,.request .wrap{grid-template-columns:1fr;gap:32px}
+  .checks .wrap{grid-template-columns:1fr;gap:20px}
+}
+@media (max-width:560px){ form{grid-template-columns:1fr;padding:20px} .brand img{height:38px} .brand small{letter-spacing:.2em} .bar a.book{padding:8px 10px;font-size:13px} }
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+</style>
+
+<header class="bar"><div class="wrap">
+  <span class="brand" aria-label="Draper Smith Insurance Group"><img src="data:image/png;base64,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" alt=""><span><b>DRAPER SMITH</b><small>Insurance Group</small></span></span>
+  <a class="book" href="#request">Book a review</a>
+</div></header>
+
+<section class="hero"><div class="wrap">
+  <div>
+    <span class="eyebrow">Free in-person mod review for contractors</span>
+    <h1>Your mod sets your premium. <em>Is it right?</em></h1>
+    <p class="lede"><span class="hi" data-greet></span>Your experience mod multiplies every workers comp dollar you pay, and reporting mistakes are common. We'll come to your office, explain how your mod is calculated, and walk you through where errors usually hide. If you'd like a full review, we'll request your worksheet for you.</p>
+    <div class="actions">
+      <a class="btn" href="#request">Book my mod review</a>
+      <span class="fine">About 30 minutes. No cost, no obligation.</span>
+    </div>
+  </div>
+  <div class="sheet" aria-label="Example experience rating worksheet">
+    <header><span>Experience rating worksheet</span><span>Example</span></header>
+    <table>
+      <tr><td>Expected losses</td><td>$84,200</td></tr>
+      <tr><td>Actual primary losses</td><td>$61,750</td></tr>
+      <tr class="flag"><td>Open claim reserve</td><td>$38,000</td></tr>
+      <tr class="flag"><td>Med-only claim, full value</td><td>$6,400</td></tr>
+      <tr class="total"><td>Experience mod</td><td>1.27</td></tr>
+    </table>
+    <footer>Illustration only. A 1.00 mod is average for your class.</footer>
+  </div>
+</div></section>
+
+<section class="checks"><div class="wrap">
+  <div class="item"><h3>Claim reserves</h3><p>Open claims are rated on reserves. Stale or overstated reserves push your mod up.</p></div>
+  <div class="item"><h3>Claim reporting</h3><p>Medical-only, closed, and recovered claims should count for less, or not at all.</p></div>
+  <div class="item"><h3>Payroll &amp; class codes</h3><p>Payroll in the wrong class changes your expected losses and your mod.</p></div>
+</div></section>
+
+<section class="request" id="request"><div class="wrap">
+  <aside>
+    <span class="eyebrow">Book a review</span>
+    <h2>Let's sit down and look at your mod.</h2>
+    <p>Pick a few times that work and we'll confirm by phone or email. It's a short conversation; you don't need any paperwork.</p>
+    <ul>
+      <li>We come to you</li>
+      <li>Nothing to prepare or bring</li>
+      <li>With your OK, we get your worksheet for you</li>
+      <li>Free for contractors in any trade</li>
+    </ul>
+  </aside>
+
+  <form id="modForm" method="POST" novalidate>
+    <input type="hidden" name="_subject" id="f_subject" value="Mod review meeting request">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="hidden" name="_next" id="f_next" value="">
+    <input type="hidden" name="Source" id="f_source" value="Mod review landing page">
+    <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+
+    <div class="f"><label for="f_name">Your name</label><input id="f_name" name="Name" autocomplete="name" required></div>
+    <div class="f"><label for="f_company">Company</label><input id="f_company" name="Company" autocomplete="organization" required></div>
+    <div class="f"><label for="f_phone">Phone</label><input id="f_phone" name="Phone" type="tel" autocomplete="tel" required></div>
+    <div class="f"><label for="f_email">Email</label><input id="f_email" name="email" type="email" autocomplete="email" required></div>
+    <div class="f full"><label for="f_where">Where should we meet?</label><input id="f_where" name="Meeting location" autocomplete="street-address" placeholder="Office address or city" required></div>
+
+    <div class="f full" role="group" aria-labelledby="l_days">
+      <span class="lbl" id="l_days">Best days</span>
+      <div class="chips">
+        <label><input type="checkbox" name="Best days" value="Mon" id="d_mon">Mon</label>
+        <label><input type="checkbox" name="Best days" value="Tue" id="d_tue">Tue</label>
+        <label><input type="checkbox" name="Best days" value="Wed" id="d_wed">Wed</label>
+        <label><input type="checkbox" name="Best days" value="Thu" id="d_thu">Thu</label>
+        <label><input type="checkbox" name="Best days" value="Fri" id="d_fri">Fri</label>
+      </div>
+    </div>
+    <div class="f full" role="group" aria-labelledby="l_time">
+      <span class="lbl" id="l_time">Best time</span>
+      <div class="chips">
+        <label><input type="checkbox" name="Best time" value="Early morning" id="t_early">Early morning</label>
+        <label><input type="checkbox" name="Best time" value="Late morning" id="t_morn">Late morning</label>
+        <label><input type="checkbox" name="Best time" value="Afternoon" id="t_aft">Afternoon</label>
+      </div>
+    </div>
+
+    <div class="f full"><label for="f_notes">Anything we should know? <span class="opt">(optional)</span></label><textarea id="f_notes" name="Notes" placeholder="Current mod, renewal date, open claims…"></textarea></div>
+
+    <div class="submit">
+      <button class="btn" type="submit" id="f_submit">Request a meeting</button>
+      <span class="fine" id="f_err" role="alert"></span>
+    </div>
+  </form>
+</div></section>
+
+<footer class="site"><div class="wrap"><span><span data-agency>Draper Smith Insurance Group</span> · Workers compensation for contractors</span><span>Example figures are illustrations, not quotes.</span></div></footer>
+
+<script>
+/* ===== SETTINGS: edit these before you put the page on your site ===== */
+const CONFIG = {
+  // Where meeting requests are emailed. After your first test, FormSubmit emails you an
+  // activation link plus a random alias; paste that alias here to hide your address.
+  notifyEmail: "dsamarin11@gmail.com",
+  // Optional: a Notify (or Zapier/Slack) webhook URL to ping on each request.
+  webhookUrl: "",
+  agencyName: "Draper Smith Insurance Group"
+};
+/* ===================================================================== */
+
+(function(){
+  const form = document.getElementById("modForm");
+  document.querySelectorAll("[data-agency]").forEach(el => el.textContent = CONFIG.agencyName);
+  form.action = "https://formsubmit.co/" + encodeURIComponent(CONFIG.notifyEmail);
+  if (CONFIG.webhookUrl) {
+    const w = document.createElement("input");
+    w.type = "hidden"; w.name = "_webhook"; w.value = CONFIG.webhookUrl; form.appendChild(w);
+  }
+
+  // PURL-style prefill: ?name=Jane%20Ortiz&company=Ortiz%20Roofing&src=postcard-oct
+  let p; try { p = new URLSearchParams(location.search); } catch(e) { p = new URLSearchParams(); }
+  const map = {name:"f_name",company:"f_company",email:"f_email",phone:"f_phone",city:"f_where"};
+  for (const [k,id] of Object.entries(map)) { const v = p.get(k); if (v) document.getElementById(id).value = v; }
+  const first = (p.get("name")||"").trim().split(/\s+/)[0];
+  if (first) document.querySelector("[data-greet]").textContent = first + ", ";
+  if (p.get("src")) document.getElementById("f_source").value = "Mod review page · " + p.get("src");
+
+  document.getElementById("f_next").value = location.href.split("#")[0] + "#thanks";
+
+  function showThanks(note){
+    form.innerHTML = '<div class="thanks"><h3>Request received.</h3><p>Thanks. We\'ll call or email within one business day to set a time to meet.</p></div>' + (note ? '<p class="preview-note">'+note+'</p>' : '');
+  }
+  if (location.hash === "#thanks") { showThanks(); document.getElementById("request").scrollIntoView(); }
+
+  // The Claude preview can't send forms to other sites.
+  const where = [location.hostname, document.referrer];
+  try { if (location.ancestorOrigins) where.push(...location.ancestorOrigins); } catch(e) {}
+  const preview = where.some(s => /claude/i.test(String(s||"")));
+
+  form.addEventListener("submit", e => {
+    const err = document.getElementById("f_err"); err.textContent = "";
+    const missing = [...form.querySelectorAll("[required]")].filter(i => !i.value.trim());
+    const email = document.getElementById("f_email");
+    if (missing.length) { e.preventDefault(); err.textContent = "Fill in your name, company, phone, email and meeting location."; missing[0].focus(); return; }
+    if (!/^\S+@\S+\.\S+$/.test(email.value)) { e.preventDefault(); err.textContent = "Check the email address; it looks incomplete."; email.focus(); return; }
+    document.getElementById("f_subject").value = "Mod review meeting: " + document.getElementById("f_company").value.trim();
+    if (preview) { e.preventDefault(); showThanks("Preview only: nothing was sent. On your website, this button emails the request to you."); return; }
+    document.getElementById("f_submit").disabled = true;
+  });
+})();
+</script>
