@@ -140,13 +140,8 @@ footer.site .wrap{padding-block:24px;font-size:13px;color:var(--muted);display:f
     </ul>
   </aside>
 
-  <form id="modForm" method="POST" novalidate>
-    <input type="hidden" name="_subject" id="f_subject" value="Mod review meeting request">
-    <input type="hidden" name="_template" value="table">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_next" id="f_next" value="">
-    <input type="hidden" name="Source" id="f_source" value="Mod review landing page">
-    <input type="text" name="_honey" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+  <form id="modForm" novalidate>
+    <input type="text" name="website" id="f_hp" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
 
     <div class="f"><label for="f_name">Your name</label><input id="f_name" name="Name" autocomplete="name" required></div>
     <div class="f"><label for="f_company">Company</label><input id="f_company" name="Company" autocomplete="organization" required></div>
@@ -185,55 +180,85 @@ footer.site .wrap{padding-block:24px;font-size:13px;color:var(--muted);display:f
 <footer class="site"><div class="wrap"><span><span data-agency>Draper Smith Insurance Group</span> · Workers compensation for contractors</span><span>Example figures are illustrations, not quotes.</span></div></footer>
 
 <script>
-/* ===== SETTINGS: edit these before you put the page on your site ===== */
+/* ===== SETTINGS ===== */
 const CONFIG = {
-  // Where meeting requests are emailed. After your first test, FormSubmit emails you an
-  // activation link plus a random alias; paste that alias here to hide your address.
-  notifyEmail: "dsamarin11@gmail.com",
-  // Optional: a Notify (or Zapier/Slack) webhook URL to ping on each request.
-  webhookUrl: "",
+  // Your private ntfy topic. Subscribe to this exact name in the ntfy app to get each request.
+  // Treat it like a password: anyone who knows it can send you notifications.
+  ntfyTopic: "ds-modreview-1c594496ba027d4a",
+  ntfyServer: "https://ntfy.sh",
   agencyName: "Draper Smith Insurance Group"
 };
-/* ===================================================================== */
+/* ==================== */
 
 (function(){
   const form = document.getElementById("modForm");
+  const $ = id => document.getElementById(id);
   document.querySelectorAll("[data-agency]").forEach(el => el.textContent = CONFIG.agencyName);
-  form.action = "https://formsubmit.co/" + encodeURIComponent(CONFIG.notifyEmail);
-  if (CONFIG.webhookUrl) {
-    const w = document.createElement("input");
-    w.type = "hidden"; w.name = "_webhook"; w.value = CONFIG.webhookUrl; form.appendChild(w);
-  }
 
-  // PURL-style prefill: ?name=Jane%20Ortiz&company=Ortiz%20Roofing&src=postcard-oct
+  // PURL-style prefill: ?name=Jane%20Ortiz&company=Ortiz%20Roofing&city=Fresno&src=postcard-oct
   let p; try { p = new URLSearchParams(location.search); } catch(e) { p = new URLSearchParams(); }
   const map = {name:"f_name",company:"f_company",email:"f_email",phone:"f_phone",city:"f_where"};
-  for (const [k,id] of Object.entries(map)) { const v = p.get(k); if (v) document.getElementById(id).value = v; }
+  for (const [k,id] of Object.entries(map)) { const v = p.get(k); if (v) $(id).value = v; }
   const first = (p.get("name")||"").trim().split(/\s+/)[0];
   if (first) document.querySelector("[data-greet]").textContent = first + ", ";
-  if (p.get("src")) document.getElementById("f_source").value = "Mod review page · " + p.get("src");
-
-  document.getElementById("f_next").value = location.href.split("#")[0] + "#thanks";
+  const source = p.get("src") || "";
 
   function showThanks(note){
     form.innerHTML = '<div class="thanks"><h3>Request received.</h3><p>Thanks. We\'ll call or email within one business day to set a time to meet.</p></div>' + (note ? '<p class="preview-note">'+note+'</p>' : '');
   }
-  if (location.hash === "#thanks") { showThanks(); document.getElementById("request").scrollIntoView(); }
 
-  // The Claude preview can't send forms to other sites.
+  // The Claude preview can't send to other sites.
   const where = [location.hostname, document.referrer];
   try { if (location.ancestorOrigins) where.push(...location.ancestorOrigins); } catch(e) {}
   const preview = where.some(s => /claude/i.test(String(s||"")));
 
-  form.addEventListener("submit", e => {
-    const err = document.getElementById("f_err"); err.textContent = "";
+  const checked = name => [...form.querySelectorAll('input[name="'+name+'"]:checked')].map(i => i.value).join(", ") || "Any";
+
+  form.addEventListener("submit", async e => {
+    e.preventDefault();
+    const err = $("f_err"); err.textContent = "";
     const missing = [...form.querySelectorAll("[required]")].filter(i => !i.value.trim());
-    const email = document.getElementById("f_email");
-    if (missing.length) { e.preventDefault(); err.textContent = "Fill in your name, company, phone, email and meeting location."; missing[0].focus(); return; }
-    if (!/^\S+@\S+\.\S+$/.test(email.value)) { e.preventDefault(); err.textContent = "Check the email address; it looks incomplete."; email.focus(); return; }
-    document.getElementById("f_subject").value = "Mod review meeting: " + document.getElementById("f_company").value.trim();
-    if (preview) { e.preventDefault(); showThanks("Preview only: nothing was sent. On your website, this button emails the request to you."); return; }
-    document.getElementById("f_submit").disabled = true;
+    if (missing.length) { err.textContent = "Fill in your name, company, phone, email and meeting location."; missing[0].focus(); return; }
+    const email = $("f_email").value.trim();
+    if (!/^\S+@\S+\.\S+$/.test(email)) { err.textContent = "Check the email address; it looks incomplete."; $("f_email").focus(); return; }
+    if ($("f_hp").value) { showThanks(); return; } // bot filled the hidden field
+
+    const v = id => $(id).value.trim();
+    const phone = v("f_phone");
+    const lines = [
+      v("f_name") + " · " + v("f_company"),
+      "Phone: " + phone,
+      "Email: " + email,
+      "Meet at: " + v("f_where"),
+      "Days: " + checked("Best days") + "  |  Time: " + checked("Best time")
+    ];
+    if (v("f_notes")) lines.push("Notes: " + v("f_notes"));
+    if (source) lines.push("Source: " + source);
+
+    if (preview) { showThanks("Preview only: nothing was sent. On your website, this button sends the request to your ntfy app."); return; }
+
+    const btn = $("f_submit"); btn.disabled = true; btn.textContent = "Sending…";
+    try {
+      const res = await fetch(CONFIG.ntfyServer, {
+        method: "POST",
+        body: JSON.stringify({
+          topic: CONFIG.ntfyTopic,
+          title: "Mod review request: " + v("f_company"),
+          message: lines.join("\n"),
+          priority: 4,
+          tags: ["handshake"],
+          actions: [
+            {action: "view", label: "Call", url: "tel:" + phone.replace(/[^\d+]/g, "")},
+            {action: "view", label: "Email", url: "mailto:" + email + "?subject=" + encodeURIComponent("Your Experience Mod review")}
+          ]
+        })
+      });
+      if (!res.ok) throw new Error(res.status);
+      showThanks();
+    } catch (x) {
+      btn.disabled = false; btn.textContent = "Request a meeting";
+      err.textContent = "That didn't go through. Check your connection and try again.";
+    }
   });
 })();
 </script>

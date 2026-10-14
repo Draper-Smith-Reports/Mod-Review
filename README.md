@@ -3,13 +3,14 @@
 Landing page for contractors to book a free, in-person Experience Mod review.
 
 ## How requests reach you
-The form posts to [FormSubmit](https://formsubmit.co), which emails each request.
-Settings are in the `CONFIG` block near the bottom of `index.html`:
+Each request is sent as a push notification through [ntfy](https://ntfy.sh), with
+**Call** and **Email** buttons in the notification.
 
-- `notifyEmail` – where requests are emailed. After the first test submission, FormSubmit
-  sends an activation link and a random alias; paste the alias here so your address
-  isn't visible in the page source.
-- `webhookUrl` – optional webhook (Notify, Zapier, Slack) pinged on each request.
+1. Install the ntfy app (iPhone or Android) or open https://ntfy.sh/app.
+2. Subscribe to the topic set in `CONFIG.ntfyTopic` near the bottom of `index.html`.
+
+The topic name works like a password. If you ever start getting junk, change it in
+`index.html` and in the app.
 
 ## Personalized links
 Add URL parameters to prefill the form and greet the contractor by name:
